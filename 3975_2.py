@@ -1,3 +1,9 @@
+'''
+input 을 미리 다 받아서 2차원 배열을 만드는 방식으로 바꿈
+->
+두 번째 루프에서 리스트를 받아 각 요소에 할당
+'''
+
 import sys
 
 sys.stdin = open('input.txt')
