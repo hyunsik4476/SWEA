@@ -4,10 +4,11 @@
 '''
 number = input()
 number_int = int(number)
-
 ans = 0
+
 a = number_int
 for num in range(1, len(number) + 1):
     a, b = divmod(a, 10)
     ans += b
+    
 print(ans)
