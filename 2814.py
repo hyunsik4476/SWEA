@@ -28,6 +28,7 @@ for idx in range(1, T+1):
         graph[a] = graph.get(a, []) + [b]
         graph[b] = graph.get(b, []) + [a]
     print(graph)
-    if graph:
-        print(DFS(graph, 3, [], 0))
+    # if graph:
+    for i in range(1, m+1):
+        print(DFS(graph, i, [], 0))
     print(answer)

@@ -1,1 +1,2 @@
-1
+a = range(0)
+print(a)
