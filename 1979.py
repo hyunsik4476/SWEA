@@ -1,41 +1,52 @@
-"""
-처음에 lst 합으로 접근했다가 포기하고 연속된 1 갯수 세기로 변경
-리스트의 마지막에서 답 +1 하는 조건 추가
-"""
-
-import sys
-sys.stdin = open('input.txt')
-
 T = int(input())
 
-for idx in range(1, T+1):
-    n, m = map(int, input().split())
-    yx_lst = []
-    for y_idx in range(n):
-        yx_lst.append(list(map(int, input().split())))
+for tc in range(1, T+1):
+    N, K = map(int, input().split())
+
+    lst = [list(map(int, input().split())) for _ in range(N)]
+    lst_x = []
+    lst_y = []
+
+    for y in range(N):
+        cnt = 0
+        x = idx = 0
+        while x + idx != N:
+            if lst[y][x+idx] == 1:
+                cnt += 1
+                idx += 1
+            elif lst[y][x+idx] == 0:
+                if cnt:
+                    lst_x.append(cnt)
+                cnt = 0
+                x = x + idx + 1
+                idx = 0
+        if cnt:
+            lst_x.append(cnt)
+
+    for x in range(N):
+        cnt = 0
+        y = idx = 0
+        while y + idx != N:
+            if lst[y+idx][x] == 1:
+                cnt += 1
+                idx += 1
+            elif lst[y+idx][x] == 0:
+                if cnt:
+                    lst_y.append(cnt)
+                cnt = 0
+                y = y + idx + 1
+                idx = 0
+        if cnt:
+            lst_y.append(cnt)
 
     ans = 0
-    for y in range(n):
-        cnt = 0
-        for x in range(n): # 5, 3 일 때 range 3  -> 0 1 2
-            if yx_lst[y][x] == 1:
-                cnt += 1
-            else:
-                if cnt == m:
-                    ans += 1
-                cnt = 0
-        if cnt == m:
+    for num in lst_x:
+        if num == K:
+            ans += 1
+    for num2 in lst_y:
+        if num2 == K:
             ans += 1
 
-    for x in range(n):
-        cnt = 0
-        for y in range(n):
-            if yx_lst[y][x] == 1:
-                cnt += 1
-            else:
-                if cnt == m:
-                    ans += 1
-                cnt = 0
-        if cnt == m:
-            ans += 1
-    print(f'#{idx} {ans}')          
+    print(f'#{tc} {ans}')
+
+
