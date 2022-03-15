@@ -1,3 +1,5 @@
+
+
 def f(x, y):        # 이어진 길 모두 검사하기
     global ans      # 답 저장용
     # print(arr[y][x])
@@ -33,3 +35,4 @@ for tc in range(1, T+1):
     a = f(start_x, start_y)
     print(f'#{tc} {ans}')
     print(a)
+
