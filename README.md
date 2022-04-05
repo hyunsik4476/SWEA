@@ -207,3 +207,117 @@
 |      nqueen      |         대각 처리 조건을 인덱스 접근으로 풀어봤음          |
 |      퀵소트      |                        퀵 소트 연습                        |
 
+
+
+### 0401
+
+|   이름    |                  풀이                   |
+| :-------: | :-------------------------------------: |
+| djikstra  |           다익스트라 알고리즘           |
+|   graph   |        그래프 순회하기(bfs, dfs)        |
+|   prim    |          최소 신장 트리 구하기          |
+| set_union | Kruskal 을 이용한 최소 신장 트리 구하기 |
+
+#### 다익스트라
+
+* ```python
+  # 다익스트라
+      # d : 출발점(0) 에서의 거리 adjM[0] 을 복사
+      # u : 비용이 결정된 정점을 체크하는 리스트
+      # d = adjM[0][:]
+      d = [adjM[0][i] for i in range(N+1)]
+      u = [0]*(N+1)
+      u[0] = 1
+  
+      for _ in range(N):  # 출발을 제외한 N개 정점의 비용결정
+          minV = INF
+          w = 0
+          for i in range(N+1):    # 비용이 결정되지 않았고 최소인 정점 i
+              if u[i] == 0 and minV > d[i]:
+                  minV = d[i]
+                  w = i
+          u[w] = 1    # 남은 정점 중 비용이 가장 적은 w
+          # w에 인접한 정점 v에 대해 출발지점에서의 도착비용 d[v] 갱신 시도
+          for v in range(N+1):
+              if INF > adjM[w][v] > 0:    # 인접 조건
+                  d[v] = min(d[v], d[w] + adjM[w][v])
+  ```
+
+* 아주 큰 값으로 초기화된 visited 배열에 대해 출발지점에서 정점까지의 거리를 조사
+
+* 사용되지 않은 정점 중 가장 짧은 이동거리를 갖는 정점의 인접부에 대해 도착비용 갱신을 시도함
+
+
+
+#### 그래프 순회
+
+* 인접 리스트냐 행렬이냐에 따라 인접부분에 대해 접근하는 방법만 달라짐
+
+
+
+#### 프림
+
+* ```python
+  def prim(r, V):
+      MST = [0]*(V+1)     # MST 포함여부
+      MST[r] = 1
+      s = 0
+      for _ in range(V):
+          u = 0
+          minV = 10000
+          for i in range(V+1):    # MST에 포함된 정점i와 인접한 정점j 중 MST에 포함되지 않고 가중치가 최소인 정점 u찾기
+              if MST[i]==1:
+                  for j in range(V+1):
+                      if adjM[i][j]>0 and MST[j]==0 and minV>adjM[i][j]:
+                          u = j
+                          minV = adjM[i][j]
+          s += minV
+          MST[u] = 1
+      return s
+  ```
+
+
+
+#### 크루스칼
+
+* ```python
+  def find_set(x):
+      while x != rep[x]:
+          x = rep[x]
+      return x
+  
+  def union(x, y):
+      rep[find_set(y)] = find_set(x)
+  
+  V, E = map(int, input().split())
+  rep = [i for i in range(V+1)]
+  edge = []
+  
+  for _ in range(E):
+      u, v, weight = map(int, input().split())
+      edge.append([weight, u, v])
+  edge.sort()
+  
+  edge_cnt = 0
+  tot = 0
+  for w, u, v in edge:
+      if find_set(v) != find_set(u):
+          edge_cnt += 1
+          union(v, u)
+          tot += w
+          if edge_cnt == V:
+              break
+  ```
+
+* 비용순으로 정렬 후 find_set 을 통해 사이클이 발생하지 않도록 픽하는 방법
+
+
+
+### 0405
+
+|    이름    |                  풀이                  |
+| :--------: | :------------------------------------: |
+| min_charge |            bfs변형으로 풀이            |
+|   group    | set_union 을 통해 대표원소 변환해 풀이 |
+
+* 내용 복습
